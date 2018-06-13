@@ -11,27 +11,21 @@
         $msg = false;
         if(isset($_FILES['arquivo'])){
             $extensao = strtolower(substr($_FILES['arquivo']['name'],-4));
-            $novo_nome = (time()).$extensao;
-            $diretorio = "upload/";
+            $novo_nome = md5(time()).$extensao;
+            $diretorio = "imagens1/";
             
             move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$novo_nome);
             
-            $sql_code = "INSERT INTO arquivo(codigo, arquivo, data) VALUES (null, '$novo_nome', NOW())";
+            $sql_code = "INSERT INTO arquivo(codigo, imagens, data) VALUES (null, '$novo_nome', NOW())";
             $sql2 = mysqli_query($conecta,$sql_code);
           if($sql2){
               $msg = "Arquivo enviado com sucesso!";
-              echo"";
+              
           }
           else {
             $msg = "Falha ao enviar arquivo";
         }
      
-     $sql3 = mysqli_query($conecta,"SELECT arquvo FROM arquivo WHERE codigo='2'");
-     echo $sql3;
-     if(mysqli_num_rows($sql3)){
-         $resutado = mysqli_fetch_row($sql3);
-         $diretorio .= $resultado[0];
-     }
    }  
      
         ?>
@@ -41,12 +35,39 @@
         <meta charset="UTF-8">
         <title>Cadastro imagem</title>
     </head>
-    <body>
+ <body>
         <?php if($msg != false) echo"<p> $msg </p>"; ?>
-        <form action="index.php" method="POST" enctype="multipart/form-data">
-            Arquivo: <input type="file" required name="arquivo">
+     <form action="" method="POST" enctype="multipart/form-data" name="upload">
+            <input type="file" required name="arquivo">
             <input type="submit" value="Salvar">
         </form>
-        <img id="foto" src="<?php echo $diretorio; ?>">
-    </body>
+        <br/>
+        <br/>
+     <?php
+        $arquivos = glob('imagens1/*.*');//pegar todo tipo de imagens
+        $qtd = 3;//número de imagens q serão exibidas na pagina
+        $atual = (isset($_GET['pg'])) ? intval($_GET['pg']):1;//verifica se existe a página ? caso não haja 3 imagens na última página manter (1)
+        $pginaarquivo = array_chunk($arquivos, $qtd);//faz uma divisão de 3 em 3 na váriavel $qtd 
+        $contar = count($pginaarquivo);//conta as paginas
+        $resultado = $pginaarquivo[$atual - 1];//resgata todos os arquivos,fazendo a paginação com array 
+      ?>
+       <?php
+      foreach ($resultado as $valor){//exibição de imagens
+          printf('<img src="%s" width="150" heigth="150" />',$valor);//exobe as imagens
+        }
+        echo'<hr></hr>';
+        //Paginação
+        for($i = 1;$i <= $contar; $i++){
+            if($i === $atual){//
+                printf('<a href="#"> (%s) </a>',$i,$i);
+            }
+            else{
+                printf('<a href="?pg=%s"> () </a>',$i,$i);
+            }
+        }
+       
+       
+       
+       ?>
+</body>
 </html>
