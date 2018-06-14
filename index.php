@@ -43,7 +43,7 @@
         <br/>
         <br/>
      <?php
-        $arquivos = glob('imagens1/*.*');//pegar todo tipo de imagens
+        $arquivosc = glob('imagens1/*.*');//pegar todo tipo de imagens
         $qtd = 3;//número de imagens q serão exibidas na pagina
         $atual = (isset($_GET['pg'])) ? intval($_GET['pg']):1;//verifica se existe a página ? caso não haja 3 imagens na última página manter (1)
         $pginaarquivo = array_chunk($arquivos, $qtd);//faz uma divisão de 3 em 3 na váriavel $qtd 
