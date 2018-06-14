@@ -1,4 +1,5 @@
-     <?php
+    
+<?php
         $host = "localhost";
         $user = "root";
         $pass = "";
@@ -33,6 +34,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Cadastro imagem</title>
+     <link rel="stylesheet" type="text/css" href="../EstioloCSS\teste.css">   
     </head>
  <body>
         <?php if($msg != false) echo"<p> $msg </p>"; ?>
@@ -50,8 +52,13 @@
         $contar = count($pginaarquivo);//conta as paginas
         $resultado = $pginaarquivo[$atual - 1];//resgata todos os arquivos,fazendo a paginação com array 
       ?>
+<html>
+       <link rel="stylesheet" type="text/css" href="teste.css">
+</html>
        <?php
+
       foreach ($resultado as $valor){//exibição de imagens
+          echo '<div class="exemplo">'."salvador".'</div>';
           printf('<img src="%s" width="150" height="150" />',$valor);//exibe as imagens
         }
         echo'<hr></hr>';
