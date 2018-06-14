@@ -1,4 +1,4 @@
-        <?php
+     <?php
         $host = "localhost";
         $user = "root";
         $pass = "";
@@ -10,25 +10,24 @@
     mysqli_select_db($conecta,$banco) or die(mysqli_error());
         $msg = false;
         if(isset($_FILES['arquivo'])){
-            $extensao = strtolower(substr($_FILES['arquivo']['name'],-4));
-            $novo_nome = md5(time()).$extensao;
-            $diretorio = "imagens1/";
+            $extensao = strtolower(substr($_FILES['arquivo']['name'],-4));// pega os quatro útimos caracteres do nome do arquivo
+            $novo_nome = md5(time()).$extensao;//cripografa o nome do arquivo
+            $diretorio = "imagens1/";//variavel que recebe o diretorio do arquivo
             
-            move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$novo_nome);
+            move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$novo_nome);//upload q move o arquivo com o novo nome
             
+                        //Insere os arquivos no banco de dados
             $sql_code = "INSERT INTO arquivo(codigo, imagens, data) VALUES (null, '$novo_nome', NOW())";
             $sql2 = mysqli_query($conecta,$sql_code);
           if($sql2){
               $msg = "Arquivo enviado com sucesso!";
-              
-          }
-          else {
-            $msg = "Falha ao enviar arquivo";
-        }
+            }
+            else {
+                $msg = "Falha ao enviar arquivo";
+            }
+        }  
      
-   }  
-     
-        ?>
+   ?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -53,7 +52,7 @@
       ?>
        <?php
       foreach ($resultado as $valor){//exibição de imagens
-          printf('<img src="%s" width="150" heigth="150" />',$valor);//exobe as imagens
+          printf('<img src="%s" width="150" height="150" />',$valor);//exibe as imagens
         }
         echo'<hr></hr>';
         //Paginação
